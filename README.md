@@ -1,15 +1,15 @@
 # Basic Sample Hardhat Project
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+Vote example with Remix ballot.sol example and simple web front end using ViteJS and Tailwind
 
-Try running some of the following tasks:
-
+## Start deploy Ballot3 contract
 ```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
+npx hardhat run script scripts/deploy-ballot3.ts --network localhost 
 npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+```
+
+## Start Vite frontend
+```shell
+cd frontend
+npm run dev
 ```
