@@ -31,7 +31,7 @@ const userConfig: HardhatUserConfig = {
     //   // accounts: [privateKey]
     // }
     hardhat: {
-      chainId: 1337  // metamask localhost use 1337
+      chainId: 31337  // metamask localhost use 31337
     }
   },
   typechain: {

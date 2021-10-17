@@ -27,14 +27,14 @@ contract Ballot3 {
 
     Proposal[] public proposals;
 
+    event Voted(address sender, uint proposal, uint voteCount);
+    event GiveRightToVote(address voter);
+    event Delegate(address to);
+
     /**
      * @dev Create a new ballot to choose one of 'proposalNames'.
      * @param proposalNames names of proposals
      */
-
-    // ["0x4a6f686e00000000000000000000000000000000000000000000000000000000",
-    // "0x4a61636b00000000000000000000000000000000000000000000000000000000",
-    // "0x4a696d0000000000000000000000000000000000000000000000000000000000"]
     constructor(bytes32[] memory proposalNames) {
         chairperson = msg.sender;
         voters[chairperson].weight = 1;
@@ -46,7 +46,7 @@ contract Ballot3 {
             proposals.push(Proposal({name: proposalNames[i], voteCount: 0}));
         }
     }
-
+  
     /**
      * @dev Give 'voter' the right to vote on this ballot. May only be called by 'chairperson'.
      * @param voter address of voter
@@ -57,6 +57,7 @@ contract Ballot3 {
         require(!voters[voter].voted, "The voter already voted.");
         require(voters[voter].weight == 0,"Voter never gets right to vote before");
         voters[voter].weight = 1;
+        emit GiveRightToVote(voter);
     }
 
     /**
@@ -86,6 +87,7 @@ contract Ballot3 {
             // add to her weight.
             delegate_.weight += sender.weight;
         }
+        emit Delegate(to);
     }
 
     /**
@@ -103,6 +105,8 @@ contract Ballot3 {
         // this will throw automatically and revert all
         // changes.
         proposals[proposal].voteCount += sender.weight;
+        
+        emit Voted(msg.sender, proposal, proposals[proposal].voteCount);
     }
 
     /**
