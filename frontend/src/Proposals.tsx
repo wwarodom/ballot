@@ -21,7 +21,7 @@ const ProposalsFC: React.FC<ProposalsProps> = ({ proposal, proposalIndex, name, 
     return (
         <div
             key={proposalIndex}
-            className={`max-w-xs rounded overflow-hidden mr-8 shadow-lg ${isWinner && `bg-yellow-200`}`}
+            className={`rounded overflow-hidden shadow-lg ${isWinner && `bg-yellow-200`}`}
         >
             <div className="px-6 py-4">
                 <div className='flex mr-2'>

@@ -190,17 +190,19 @@ const BallotFC: React.FC = () => {
             const disabled = !!delegated() || isNotSelected || voter.weight === 0;
 
             return (
-                <ProposalsFC
-                    key={proposalIndex}
-                    proposal={proposal}
-                    proposalIndex={proposalIndex}
-                    isSelected={isVoted && voter.vote === proposalIndex}
-                    disabled={disabled}
-                    isWinner={proposalIndex === winnerIndex()}
-                    name={name}
-                    url={url}
-                    vote={vote}
-                />
+                <div key={proposalIndex} className="w-60 justify-self-center">
+                    <ProposalsFC
+                        key={proposalIndex}
+                        proposal={proposal}
+                        proposalIndex={proposalIndex}
+                        isSelected={isVoted && voter.vote === proposalIndex}
+                        disabled={disabled}
+                        isWinner={proposalIndex === winnerIndex()}
+                        name={name}
+                        url={url}
+                        vote={vote}
+                    />
+                </div>
             )
         })
     }
@@ -208,17 +210,19 @@ const BallotFC: React.FC = () => {
     function showAccountsFromGiveRight() {
         const disabled = user !== chairPerson;
         return (
-            <div className="flex flex-row justify-center mb-4">
-                <div className="mt-2 mr-4">
+            <div className="sm:flex flex-row justify-center items-center mb-4">
+                <div className="mb-2 sm:mb-0 sm:mr-4">
                     Give Right to:
                 </div>
-                <input
-                    className="w-1/2 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 "
-                    type="text" onChange={(e) => setAccountRight(e.target.value)} />
-                <button
-                    disabled={disabled}
-                    className="bg-yellow-500 hover:bg-yellow-600 p-2 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
-                    onClick={() => giveRightToVote(accountRight)}>Give Right</button>
+                <div className='flex'>
+                    <input
+                        className="flex-1 sm:w-64 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 "
+                        type="text" onChange={(e) => setAccountRight(e.target.value)} />
+                    <button
+                        disabled={disabled}
+                        className=" whitespace-nowrap  bg-yellow-500 hover:bg-yellow-600 p-2 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        onClick={() => giveRightToVote(accountRight)}>Give Right</button>
+                </div>
             </div>
         );
     }
@@ -226,16 +230,16 @@ const BallotFC: React.FC = () => {
     function showDelegate() {
         const disabled = voter.voted || voter.weight === 0;
         return (
-            <div className="flex flex-row justify-center">
-                <div className="mt-2 mr-4">
+            <div className="sm:flex flex-row justify-center items-center">
+                <div className="mb-2 sm:mb-0 sm:mr-4">
                     Delegate to:
                 </div>
                 <input
-                    className="w-1/2 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
+                    className="flex-1 sm:w-64 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
                     type="text" onChange={(e) => setAccountDelegate(e.target.value)} />
                 <button
                     disabled={disabled}
-                    className="bg-blue-500 hover:bg-blue-600 p-2 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    className="whitespace-nowrap bg-blue-500 hover:bg-blue-600 p-2 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                     onClick={() => delegate(accountDelegate)}>Delegate</button>
             </div>
         );
@@ -249,20 +253,21 @@ const BallotFC: React.FC = () => {
                 user={user}
             />
 
-            <div>
-                <div className="flex">
+            <div className='mt-10 px-4'>
+                <div className="grid gap-6 sm:grid-cols-3">
                     {printProposal()}
                 </div>
 
-                <div className="mt-16 flex flex-row justify-center font-semibold text-3xl">
+                <div className="mt-12 font-semibold text-2xl sm:text-3xl text-center">
                     {voterStatus()}
                 </div>
-
             </div>
-            <div className="w-2/3 mt-16">
+
+            <div className="mt-6 px-4">
                 {showAccountsFromGiveRight()}
                 {showDelegate()}
             </div>
+
             <div>
                 <ToastContainer />
             </div>
