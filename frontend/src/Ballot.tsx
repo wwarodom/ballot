@@ -43,12 +43,18 @@ const BallotFC: React.FC = () => {
         connect();
         window.ethereum.on('connect', connect);
         window.ethereum.on('accountsChanged', connect);
+        window.ethereum.on('networkChanged', reload);
 
         return () => {
             window.ethereum.removeListener('connect', connect);
             window.ethereum.removeListener('accountsChanged', connect);
+            window.ethereum.on('networkChanged', reload);
         }
     }, [signer]);
+
+    function reload() {
+        return window.location.reload();
+    }
 
     async function connect() {
         if (signer) {
