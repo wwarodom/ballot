@@ -2,7 +2,8 @@ import { ethers } from "ethers";
 import { getSigner } from "../utils/provider";
 import { address } from './contracts/Ballot-address.json';
 import { abi } from './contracts/Ballot-abi.json';
-import { Ballot3 } from "../../src/types/Ballot3";
+import { Ballot3 } from './contracts/types/Ballot3'; 
+// import { Ballot3 } from "../../src/types/Ballot3"; 
 import { useEffect, useState } from "react";
 
 import { ToastContainer, toast } from 'react-toastify';
