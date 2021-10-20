@@ -82,8 +82,28 @@ interface Ballot3Interface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
 
-  events: {};
+  events: {
+    "Delegate(address)": EventFragment;
+    "GiveRightToVote(address)": EventFragment;
+    "Voted(address,uint256,uint256)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "Delegate"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "GiveRightToVote"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Voted"): EventFragment;
 }
+
+export type DelegateEvent = TypedEvent<[string] & { to: string }>;
+
+export type GiveRightToVoteEvent = TypedEvent<[string] & { voter: string }>;
+
+export type VotedEvent = TypedEvent<
+  [string, BigNumber, BigNumber] & {
+    sender: string;
+    proposal: BigNumber;
+    voteCount: BigNumber;
+  }
+>;
 
 export class Ballot3 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -255,7 +275,37 @@ export class Ballot3 extends BaseContract {
     winningProposal(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
-  filters: {};
+  filters: {
+    "Delegate(address)"(to?: null): TypedEventFilter<[string], { to: string }>;
+
+    Delegate(to?: null): TypedEventFilter<[string], { to: string }>;
+
+    "GiveRightToVote(address)"(
+      voter?: null
+    ): TypedEventFilter<[string], { voter: string }>;
+
+    GiveRightToVote(
+      voter?: null
+    ): TypedEventFilter<[string], { voter: string }>;
+
+    "Voted(address,uint256,uint256)"(
+      sender?: null,
+      proposal?: null,
+      voteCount?: null
+    ): TypedEventFilter<
+      [string, BigNumber, BigNumber],
+      { sender: string; proposal: BigNumber; voteCount: BigNumber }
+    >;
+
+    Voted(
+      sender?: null,
+      proposal?: null,
+      voteCount?: null
+    ): TypedEventFilter<
+      [string, BigNumber, BigNumber],
+      { sender: string; proposal: BigNumber; voteCount: BigNumber }
+    >;
+  };
 
   estimateGas: {
     chairperson(overrides?: CallOverrides): Promise<BigNumber>;
