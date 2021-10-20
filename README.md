@@ -3,7 +3,7 @@
 Vote example with Remix example (Ballot3.sol) and simple web front end using ViteJS and Tailwind
 
 ```shell
-git clone -b frontend https://github.com/wwarodom/ballot.git 
+git clone https://github.com/wwarodom/ballot.git 
 ```
 
 ### Start deploy Ballot3 contract
