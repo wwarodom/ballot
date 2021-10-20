@@ -1,12 +1,11 @@
 type HeadingProps = {
-    connect: () => void;
-    initProposals: () => void;
+    connect: () => void; 
     user: string;
 }
 
-const Heading: React.FC<HeadingProps> = ({ connect, initProposals, user }) => {
+const Heading: React.FC<HeadingProps> = ({ connect, user }) => {
 
-    const address = !user ? "" : user.substring(0, 5) + '...' + user.substring(user.length - 5, user.length - 1);
+    const address = !user ? "" : user.slice(0,5) + '...' + user.slice(-3);
 
     return (
         <div className="flex flex-row justify-between w-full p-2 shadow-md">

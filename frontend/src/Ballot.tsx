@@ -43,12 +43,12 @@ const BallotFC: React.FC = () => {
         connect();
         window.ethereum.on('connect', connect);
         window.ethereum.on('accountsChanged', connect);
-        window.ethereum.on('networkChanged', reload);
+        window.ethereum.on('chainChanged', reload);
 
         return () => {
             window.ethereum.removeListener('connect', connect);
             window.ethereum.removeListener('accountsChanged', connect);
-            window.ethereum.on('networkChanged', reload);
+            window.ethereum.on('chainChanged', reload);
         }
     }, [signer]);
 
@@ -130,8 +130,7 @@ const BallotFC: React.FC = () => {
                 console.log('Delegate to: ', address);
                 loadData();
                 ballotContract.once("Delegate", (to) => toast.success('Delegate to:' + to));
-            } catch (e: any) {
-                // console.log('body: ', JSON.parse(e.body).error.message);
+            } catch (e: any) { 
                 toast.error(e.data.message);
             }
         }
@@ -176,10 +175,11 @@ const BallotFC: React.FC = () => {
 
     function voterStatus() {
         const delegatedTo = delegated();
-        if (delegatedTo) return `You have delegated to ${delegatedTo.slice(0, 5)}...${delegatedTo.slice(delegatedTo.length - 5)}.`;
-        else if (voter.voted) {
+        if (delegatedTo)         // delegated, no voted proposal status 
+            return `You have delegated to ${delegatedTo.slice(0, 5)}...${delegatedTo.slice(-5)}.`;
+        else if (voter.voted) {  // already voted, get proposal name
             const proposal = proposals[voter.vote];
-            if (!proposal) return '';
+            if (!proposal) return '';      // to wait proposal loading 
             const proposalName = ethers.utils.parseBytes32String(proposal.name);
             return `You have voted to ${proposalName}.`;
         }
@@ -254,8 +254,7 @@ const BallotFC: React.FC = () => {
     return (
         <div className="flex flex-col justify-center items-center ">
             <Heading
-                connect={connect}
-                initProposals={initProposals}
+                connect={connect} 
                 user={user}
             />
 

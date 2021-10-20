@@ -26,7 +26,6 @@ interface Ballot3Interface extends ethers.utils.Interface {
     "getBytes32ArrayForInput()": FunctionFragment;
     "giveRightToVote(address)": FunctionFragment;
     "proposals(uint256)": FunctionFragment;
-    "sendEvent()": FunctionFragment;
     "vote(uint256)": FunctionFragment;
     "voters(address)": FunctionFragment;
     "winnerName()": FunctionFragment;
@@ -50,7 +49,6 @@ interface Ballot3Interface extends ethers.utils.Interface {
     functionFragment: "proposals",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "sendEvent", values?: undefined): string;
   encodeFunctionData(functionFragment: "vote", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "voters", values: [string]): string;
   encodeFunctionData(
@@ -76,7 +74,6 @@ interface Ballot3Interface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "proposals", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "sendEvent", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "vote", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "voters", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "winnerName", data: BytesLike): Result;
@@ -88,21 +85,17 @@ interface Ballot3Interface extends ethers.utils.Interface {
   events: {
     "Delegate(address)": EventFragment;
     "GiveRightToVote(address)": EventFragment;
-    "Log(string)": EventFragment;
     "Voted(address,uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Delegate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "GiveRightToVote"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Log"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Voted"): EventFragment;
 }
 
 export type DelegateEvent = TypedEvent<[string] & { to: string }>;
 
 export type GiveRightToVoteEvent = TypedEvent<[string] & { voter: string }>;
-
-export type LogEvent = TypedEvent<[string] & { arg0: string }>;
 
 export type VotedEvent = TypedEvent<
   [string, BigNumber, BigNumber] & {
@@ -179,10 +172,6 @@ export class Ballot3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, BigNumber] & { name: string; voteCount: BigNumber }>;
 
-    sendEvent(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     vote(
       proposal: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -230,10 +219,6 @@ export class Ballot3 extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[string, BigNumber] & { name: string; voteCount: BigNumber }>;
 
-  sendEvent(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   vote(
     proposal: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -271,8 +256,6 @@ export class Ballot3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, BigNumber] & { name: string; voteCount: BigNumber }>;
 
-    sendEvent(overrides?: CallOverrides): Promise<void>;
-
     vote(proposal: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     voters(
@@ -304,12 +287,6 @@ export class Ballot3 extends BaseContract {
     GiveRightToVote(
       voter?: null
     ): TypedEventFilter<[string], { voter: string }>;
-
-    "Log(string)"(
-      undefined?: null
-    ): TypedEventFilter<[string], { arg0: string }>;
-
-    Log(undefined?: null): TypedEventFilter<[string], { arg0: string }>;
 
     "Voted(address,uint256,uint256)"(
       sender?: null,
@@ -350,10 +327,6 @@ export class Ballot3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    sendEvent(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     vote(
       proposal: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -386,10 +359,6 @@ export class Ballot3 extends BaseContract {
     proposals(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    sendEvent(
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     vote(
