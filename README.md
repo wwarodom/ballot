@@ -1,4 +1,4 @@
-# Basic Sample Hardhat Project
+# Vote Project (Ballot)
 
 Vote example with Remix example (Ballot3.sol) and simple web front end using ViteJS and Tailwind
 
